@@ -29,6 +29,10 @@ dependencies {
 //    runtimeOnly 'mysql:mysql-connector-java:8.0.29'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 //    testImplementation 'com.h2database:h2:2.1.212'
+    compileOnly 'org.projectlombok:lombok:1.18.4'
+    annotationProcessor 'org.projectlombok:lombok:1.18.4'
+    testCompileOnly 'org.projectlombok:lombok:1.18.4'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.4'
 }
 
 group = 'com.thoughtworks'
