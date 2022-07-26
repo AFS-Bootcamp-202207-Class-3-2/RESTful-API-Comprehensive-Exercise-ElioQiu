@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Repository
 public class EmployeeRepository {
 
-    public static final int DEFAULT_MINUES_ID = -1;
+    public static final int DEFAULT_MIN_ID = -1;
     private final List<Employee> employees;
     public EmployeeRepository() {
         this.employees = new ArrayList<>();
@@ -56,7 +56,18 @@ public class EmployeeRepository {
     private Integer generateId() {
         int maxId = employees.stream()
                 .mapToInt(Employee::getId)
-                .max().orElse(DEFAULT_MINUES_ID);
+                .max().orElse(DEFAULT_MIN_ID);
         return ++maxId;
+    }
+
+    public Employee updateById(Integer id, Employee employee) {
+        Employee existingEmployee = findById(id);
+        if(employee.getAge() != null) {
+            existingEmployee.setAge(employee.getAge());
+        }
+        if(employee.getSalary() != null) {
+            existingEmployee.setSalary(employee.getSalary());
+        }
+        return existingEmployee;
     }
 }
