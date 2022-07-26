@@ -1,6 +1,7 @@
 package com.rest.springbootemployee.repository;
 
 import com.rest.springbootemployee.entity.Company;
+import com.rest.springbootemployee.entity.Employee;
 import com.rest.springbootemployee.exception.CompanyNotFoundException;
 import org.springframework.stereotype.Repository;
 
@@ -32,5 +33,9 @@ public class CompanyRepository {
                 .filter(company -> company.getId().equals(id))
                 .findFirst()
                 .orElseThrow(CompanyNotFoundException::new);
+    }
+
+    public List<Employee> findEmployeesByCompanyId(Integer id) {
+        return findById(id).getEmployees();
     }
 }
