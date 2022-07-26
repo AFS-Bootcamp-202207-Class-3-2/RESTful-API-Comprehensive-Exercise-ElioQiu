@@ -47,4 +47,9 @@ public class EmployeeController {
         return employeeRepository.updateById(id, employee);
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteEmployeeById(@PathVariable Integer id) {
+        employeeRepository.deleteById(id);
+    }
 }

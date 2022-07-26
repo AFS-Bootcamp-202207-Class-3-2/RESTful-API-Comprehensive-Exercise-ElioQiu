@@ -70,4 +70,8 @@ public class EmployeeRepository {
         }
         return existingEmployee;
     }
+
+    public void deleteById(Integer id) {
+        employees.remove(findById(id));
+    }
 }
