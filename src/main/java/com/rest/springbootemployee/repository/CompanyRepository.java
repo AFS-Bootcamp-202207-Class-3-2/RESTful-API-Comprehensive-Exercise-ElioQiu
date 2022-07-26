@@ -12,6 +12,8 @@ import java.util.stream.Stream;
 
 @Repository
 public class CompanyRepository {
+
+    public static final int DEFAULT_MIN_ID = -1;
     private final List<Company> companies;
 
     public CompanyRepository() {
@@ -44,5 +46,18 @@ public class CompanyRepository {
                 .skip((long) (page - 1) * pageSize)
                 .limit(pageSize)
                 .collect(Collectors.toList());
+    }
+
+    public Company addCompany(Company company) {
+        company.setId(generateId());
+        companies.add(company);
+        return company;
+    }
+
+    private Integer generateId() {
+        int maxId = companies.stream()
+                .mapToInt(Company::getId)
+                .max().orElse(DEFAULT_MIN_ID);
+        return ++maxId;
     }
 }
