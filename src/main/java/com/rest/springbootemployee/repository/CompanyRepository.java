@@ -3,6 +3,7 @@ package com.rest.springbootemployee.repository;
 import com.rest.springbootemployee.entity.Company;
 import com.rest.springbootemployee.entity.Employee;
 import com.rest.springbootemployee.exception.CompanyNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -13,17 +14,19 @@ import java.util.stream.Stream;
 @Repository
 public class CompanyRepository {
 
+    private final EmployeeRepository employeeRepository = new EmployeeRepository();
+
     public static final int DEFAULT_MIN_ID = -1;
     private final List<Company> companies;
 
     public CompanyRepository() {
         this.companies = new ArrayList<>();
         companies.add(new Company(1, "OOCL",
-                new EmployeeRepository().getEmployeesByIds(Stream.of(1).collect(Collectors.toList()))));
+                employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList()))));
         companies.add(new Company(2, "CargoSmart",
-                new EmployeeRepository().getEmployeesByIds(Stream.of(2, 3).collect(Collectors.toList()))));
+                employeeRepository.getEmployeesByIds(Stream.of(2, 3).collect(Collectors.toList()))));
         companies.add(new Company(3, "IQAX",
-                new EmployeeRepository().getEmployeesByIds(Stream.of(4, 5, 6).collect(Collectors.toList()))));
+                employeeRepository.getEmployeesByIds(Stream.of(4, 5, 6).collect(Collectors.toList()))));
     }
 
     public List<Company> findAll() {
@@ -67,5 +70,11 @@ public class CompanyRepository {
             existingCompany.setEmployees(company.getEmployees());
         }
         return existingCompany;
+    }
+
+    public void deleteCompanyById(Integer id) {
+        Company deletedCompany = findById(id);
+        employeeRepository.removeEmployees(deletedCompany.getEmployees());
+        companies.remove(deletedCompany);
     }
 }

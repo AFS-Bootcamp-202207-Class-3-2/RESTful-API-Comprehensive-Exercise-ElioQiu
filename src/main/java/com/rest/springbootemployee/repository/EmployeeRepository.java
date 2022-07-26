@@ -80,4 +80,8 @@ public class EmployeeRepository {
                 .filter(employee -> ids.contains(employee.getId()))
                 .collect(Collectors.toList());
     }
+
+    public void removeEmployees(List<Employee> employees) {
+        employees.forEach(employees::remove);
+    }
 }
