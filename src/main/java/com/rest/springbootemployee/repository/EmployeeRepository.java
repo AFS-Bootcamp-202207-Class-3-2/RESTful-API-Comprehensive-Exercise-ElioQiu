@@ -74,4 +74,10 @@ public class EmployeeRepository {
     public void deleteById(Integer id) {
         employees.remove(findById(id));
     }
+
+    public List<Employee> getEmployeesByIds(List<Integer> ids) {
+         return employees.stream()
+                .filter(employee -> ids.contains(employee.getId()))
+                .collect(Collectors.toList());
+    }
 }
