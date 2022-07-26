@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 @Repository
 public class EmployeeRepository {
 
+    public static final int DEFAULT_MINUES_ID = -1;
     private final List<Employee> employees;
     public EmployeeRepository() {
         this.employees = new ArrayList<>();
@@ -44,5 +45,18 @@ public class EmployeeRepository {
                 .skip((long) (page - 1) * pageSize)
                 .limit(pageSize)
                 .collect(Collectors.toList());
+    }
+
+    public Employee addEmployee(Employee employee) {
+        employee.setId(generateId());
+        employees.add(employee);
+        return employee;
+    }
+
+    private Integer generateId() {
+        int maxId = employees.stream()
+                .mapToInt(Employee::getId)
+                .max().orElse(DEFAULT_MINUES_ID);
+        return ++maxId;
     }
 }
