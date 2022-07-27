@@ -62,6 +62,7 @@ public class EmployeeControllerTest {
         client.perform(MockMvcRequestBuilders.post("/employees")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(newEmployeeJson))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Mike"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(44))
@@ -91,4 +92,27 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].salary").value(8000));
         // should
     }
+
+    @Test
+    void should_update_employees_by_id_when_perform_put_given_a_new_employee() throws Exception {
+        //given
+        employeeRepository.addEmployee(new Employee(1, "Mike", 44, "male", 8000));
+        String updateEmployeeJson = "{\n" +
+                "    \"name\" : \"Mike\",\n" +
+                "    \"age\": 22,\n" +
+                "    \"gender\": \"male\",\n" +
+                "    \"salary\": 80000\n" +
+                "}";
+        //when
+        client.perform(MockMvcRequestBuilders.put("/employees/{id}", 0)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(updateEmployeeJson))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Mike"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(22))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value("male"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(80000));
+        //then
+    }
+
 }
