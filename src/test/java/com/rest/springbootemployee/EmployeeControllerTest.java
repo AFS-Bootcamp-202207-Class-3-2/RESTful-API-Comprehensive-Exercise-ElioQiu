@@ -126,6 +126,28 @@ public class EmployeeControllerTest {
         List<Employee> employees = employeeRepository.findAll();
         assertThat(employees.size(), equalTo(0));
     }
-    
+
+    @Test
+    void should_return_employees_by_page_when_perform_get_given_employees_by_page_and_pageSize() throws Exception {
+        //given
+        employeeRepository.addEmployee(new Employee(1, "Mike", 22, "male", 8000));
+        employeeRepository.addEmployee(new Employee(2, "Lucy", 22, "female", 8000));
+        employeeRepository.addEmployee(new Employee(3, "Jack", 22, "male", 8000));
+        employeeRepository.addEmployee(new Employee(4, "Lisa", 22, "female", 8000));
+        employeeRepository.addEmployee(new Employee(5, "Tom", 22, "male", 8000));
+        employeeRepository.addEmployee(new Employee(6, "Tomi", 22, "male", 8000));
+        //when
+        client.perform(MockMvcRequestBuilders.get("/employees")
+                .param("page", "2")
+                .param("pageSize", "2"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(2)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Jack"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].age").value(22))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].gender").value("male"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].salary").value(8000));
+        //then
+    }
+
 
 }
