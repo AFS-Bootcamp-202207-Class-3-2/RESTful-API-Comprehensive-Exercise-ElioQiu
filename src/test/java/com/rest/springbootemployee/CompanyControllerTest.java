@@ -51,4 +51,22 @@ public class CompanyControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].employees[1].name").value("Jack"));
         // should
     }
+
+    @Test
+    void should_find_company_by_id_when_get_given_company_id() throws Exception {
+        // given
+        companyRepository.addCompany(new Company(2, "CargoSmart",
+                employeeRepository.getEmployeesByIds(Stream.of(2, 3).collect(Collectors.toList()))));
+        // when
+        client.perform(MockMvcRequestBuilders.get("/companies/{id}", 0))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.companyName").value("CargoSmart"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.employees.size()").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[0].id").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[0].name").value("Lucy"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[1].id").value(3))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[1].name").value("Jack"));
+        // should
+    }
 }
