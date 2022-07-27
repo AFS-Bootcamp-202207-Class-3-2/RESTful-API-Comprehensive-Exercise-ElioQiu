@@ -60,5 +60,25 @@ public class EmployeeServiceTest {
         assertEquals(28000, employeeToUpdate.getSalary());
     }
 
+    @Test
+    void should_find_by_second_page_when_get_given_employee_page_and_pageSize() {
+        //given
+        Employee firstEmployee = new Employee(3, "Jack", 22, "male", 8000);
+        Employee secondEmployee = new Employee(4, "Lisa", 22, "female", 8000);
+        employeeRepository.addEmployee(new Employee(1, "Mike", 22, "male", 8000));
+        employeeRepository.addEmployee(new Employee(2, "Lucy", 22, "female", 8000));
+        employeeRepository.addEmployee(firstEmployee);
+        employeeRepository.addEmployee(secondEmployee);
+        List<Employee> secondPageEmployee = new ArrayList<>();
+        secondPageEmployee.add(firstEmployee);
+        secondPageEmployee.add(secondEmployee);
+        given(employeeRepository.findByPage(2, 2)).willReturn(secondPageEmployee);
+        //when
+        List<Employee> employees = employeeService.findByPage(2, 2);
+        //then
+        assertEquals(2, employees.size());
+        assertEquals(firstEmployee, employees.get(0));
+        assertEquals(secondEmployee, employees.get(1));
+    }
 
 }
