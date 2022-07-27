@@ -77,4 +77,18 @@ public class EmployeeControllerTest {
         assertThat(employees.get(0).getSalary(), equalTo(8000));
     }
 
+    @Test
+    void should_return_all_male_employees_when_perform_get_by_gender_given_is_male() throws Exception {
+        // given
+        employeeRepository.addEmployee(new Employee(1, "Mike", 22, "male", 8000));
+        // when
+        client.perform(MockMvcRequestBuilders.get("/employees")
+                .param("gender", "male"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Mike"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].age").value(22))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].gender").value("male"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].salary").value(8000));
+        // should
+    }
 }
