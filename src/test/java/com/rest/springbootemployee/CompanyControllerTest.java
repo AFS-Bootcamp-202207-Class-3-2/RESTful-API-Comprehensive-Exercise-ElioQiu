@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -108,5 +109,33 @@ public class CompanyControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].employees[1].id").value(3))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].employees[1].name").value("Jack"));
         // should
+    }
+
+    @Test
+    void should_create_a_new_company_when_perform_post_given_a_new_company() throws Exception {
+        // given
+        String newCompanyJson = "{\n" +
+                "    \"companyName\" : \"OOIL\",\n" +
+                "    \"employees\": [\n" +
+                "        {\n" +
+                "            \"name\": \"Jackson\",\n" +
+                "            \"age\": 44,\n" +
+                "            \"gender\": \"male\",\n" +
+                "            \"salary\": 20000\n" +
+                "        }\n" +
+                "    ]\n" +
+                "}";
+        // when
+        client.perform(MockMvcRequestBuilders.post("/companies")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(newCompanyJson))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.companyName").value("OOIL"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.employees.size()").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[0].name").value("Jackson"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[0].age").value(44))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[0].gender").value("male"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[0].salary").value(20000));
     }
 }
