@@ -54,4 +54,20 @@ public class CompanyServiceTest {
         // then
         assertEquals(companyById, company);
     }
+
+    @Test
+    void should_return_employees_by_company_id_when_get_given_company_and_id() {
+        // given
+        Company company = new Company(2, "CargoSmart",
+                employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList())));
+        companyRepository.addCompany(company);
+        List<Employee> exceptEmployees = new ArrayList<>();
+        exceptEmployees.add(new Employee(1, "Mike", 22, "male", 8000));
+        given(companyRepository.findEmployeesByCompanyId(2)).willReturn(exceptEmployees);
+        // when
+        List<Employee> employeesByCompanyId = companyService.findEmployeesByCompanyId(2);
+        // then
+        assertEquals(1, employeesByCompanyId.size());
+        assertEquals(exceptEmployees, employeesByCompanyId);
+    }
 }
