@@ -1,6 +1,7 @@
 package com.rest.springbootemployee;
 
 import com.rest.springbootemployee.entity.Company;
+import com.rest.springbootemployee.entity.Employee;
 import com.rest.springbootemployee.repository.CompanyRepository;
 import com.rest.springbootemployee.repository.EmployeeRepository;
 import com.rest.springbootemployee.service.CompanyService;
@@ -39,5 +40,18 @@ public class CompanyServiceTest {
         List<Company> companies = companyService.findAll();
         assertEquals(1, companies.size());
         assertEquals(firstCompany, companies.get(0));
+    }
+
+    @Test
+    void should_find_by_id_when_get_given_company_and_id() {
+        // given
+        Company companyById = new Company(2, "CargoSmart",
+                employeeRepository.getEmployeesByIds(Stream.of(2, 3).collect(Collectors.toList())));
+        companyRepository.addCompany(companyById);
+        given(companyRepository.findById(2)).willReturn(companyById);
+        // when
+        Company company = companyService.findById(2);
+        // then
+        assertEquals(companyById, company);
     }
 }
