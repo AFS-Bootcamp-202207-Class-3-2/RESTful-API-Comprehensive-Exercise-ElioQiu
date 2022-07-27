@@ -3,17 +3,14 @@ package com.rest.springbootemployee;
 import com.rest.springbootemployee.entity.Employee;
 import com.rest.springbootemployee.repository.EmployeeRepository;
 import com.rest.springbootemployee.service.EmployeeService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
@@ -36,10 +33,7 @@ public class EmployeeServiceTest {
         Employee secondEmployee = new Employee(2, "Jack", 25, "male", 10000);
         preparedEmployees.add(firstEmployee);
         preparedEmployees.add(secondEmployee);
-//        employeeRepository.addEmployee(firstEmployee);
-//        employeeRepository.addEmployee(secondEmployee);
         given(employeeRepository.findAll()).willReturn(preparedEmployees);
-
         //when
         List<Employee> employees = employeeService.findAll();
         //then
@@ -53,7 +47,6 @@ public class EmployeeServiceTest {
         Employee employeeToUpdate = new Employee(1, "Susan", 20, "female", 8000);
         Employee employeeAfterUpdate = new Employee(1, "Mike", 40, "male", 28000);
         given(employeeRepository.findById(1)).willReturn(employeeToUpdate);
-        
         //when
         Employee update = employeeService.update(1, employeeAfterUpdate);
         //then
@@ -125,7 +118,6 @@ public class EmployeeServiceTest {
         Employee employees = employeeService.addEmployee(newEmployee);
         //then
         assertEquals(newEmployee, employees);
-        //then
     }
 
     @Test

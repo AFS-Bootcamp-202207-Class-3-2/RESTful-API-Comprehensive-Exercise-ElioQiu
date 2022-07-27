@@ -1,7 +1,6 @@
 package com.rest.springbootemployee;
 
 import com.rest.springbootemployee.entity.Company;
-import com.rest.springbootemployee.entity.Employee;
 import com.rest.springbootemployee.repository.CompanyRepository;
 import com.rest.springbootemployee.repository.EmployeeRepository;
 import org.hamcrest.Matchers;
