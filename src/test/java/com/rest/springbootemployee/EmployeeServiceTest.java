@@ -113,4 +113,16 @@ public class EmployeeServiceTest {
         assertEquals(secondEmployee, employees.get(1));
     }
 
+    @Test
+    void should_return_new_employee_when_post_given_new_employee() {
+        //given
+        Employee newEmployee = new Employee(1, "Mike", 22, "male", 8000);
+        given(employeeRepository.addEmployee(newEmployee)).willReturn(newEmployee);
+        //when
+        Employee employees = employeeService.addEmployee(newEmployee);
+        //then
+        assertEquals(newEmployee, employees);
+        //then
+    }
+
 }
