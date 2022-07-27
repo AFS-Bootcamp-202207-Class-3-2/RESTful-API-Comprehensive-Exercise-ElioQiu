@@ -60,17 +60,6 @@ public class EmployeeRepository {
         return ++maxId;
     }
 
-    public Employee updateById(Integer id, Employee employee) {
-        Employee existingEmployee = findById(id);
-        if(employee.getAge() != null) {
-            existingEmployee.setAge(employee.getAge());
-        }
-        if(employee.getSalary() != null) {
-            existingEmployee.setSalary(employee.getSalary());
-        }
-        return existingEmployee;
-    }
-
     public void deleteById(Integer id) {
         employees.remove(findById(id));
     }

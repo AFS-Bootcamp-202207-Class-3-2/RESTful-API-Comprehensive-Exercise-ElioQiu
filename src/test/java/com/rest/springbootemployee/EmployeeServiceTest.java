@@ -55,12 +55,12 @@ public class EmployeeServiceTest {
         given(employeeRepository.findById(1)).willReturn(employeeToUpdate);
         
         //when
-        employeeService.update(1, employeeAfterUpdate);
+        Employee update = employeeService.update(1, employeeAfterUpdate);
         //then
-        assertEquals("Susan", employeeToUpdate.getName());
-        assertEquals(40, employeeToUpdate.getAge());
-        assertEquals("female", employeeToUpdate.getGender());
-        assertEquals(28000, employeeToUpdate.getSalary());
+        assertEquals("Susan", update.getName());
+        assertEquals(40, update.getAge());
+        assertEquals("female", update.getGender());
+        assertEquals(28000, update.getSalary());
     }
 
     @Test
