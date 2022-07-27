@@ -2,6 +2,7 @@ package com.rest.springbootemployee;
 
 import com.rest.springbootemployee.entity.Employee;
 import com.rest.springbootemployee.repository.EmployeeRepository;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
 @SpringBootTest
@@ -82,14 +83,16 @@ public class EmployeeControllerTest {
     void should_return_all_male_employees_when_perform_get_by_gender_given_is_male() throws Exception {
         // given
         employeeRepository.addEmployee(new Employee(1, "Mike", 22, "male", 8000));
+        employeeRepository.addEmployee(new Employee(2, "Lucy", 22, "female", 8000));
+        employeeRepository.addEmployee(new Employee(3, "Jack", 23, "male", 80000));
         // when
         client.perform(MockMvcRequestBuilders.get("/employees")
                 .param("gender", "male"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").isNumber())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Mike"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].age").value(22))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].gender").value("male"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].salary").value(8000));
+                .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[*].name", containsInAnyOrder("Mike", "Jack")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[*].age", containsInAnyOrder(22, 23)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[*].gender", everyItem(is("male"))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[*].salary", containsInAnyOrder(8000, 80000)));
         // should
     }
 
