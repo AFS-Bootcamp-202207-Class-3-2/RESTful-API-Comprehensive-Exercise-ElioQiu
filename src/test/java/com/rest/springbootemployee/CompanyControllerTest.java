@@ -34,7 +34,7 @@ public class CompanyControllerTest {
     }
 
     @Test
-    void should_get_all_employees_when_perform_get_given_employees() throws Exception {
+    void should_get_all_companies_when_perform_get_given_companies() throws Exception {
         // given
         companyRepository.addCompany(new Company(2, "CargoSmart",
                 employeeRepository.getEmployeesByIds(Stream.of(2, 3).collect(Collectors.toList()))));
