@@ -70,4 +70,21 @@ public class CompanyServiceTest {
         assertEquals(1, employeesByCompanyId.size());
         assertEquals(exceptEmployees, employeesByCompanyId);
     }
+
+    @Test
+    void should_find_by_second_page_when_get_given_company_page_and_pageSize() {
+        Company company = new Company(2, "CargoSmart",
+                employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList())));
+        companyRepository.addCompany(company);
+        companyRepository.addCompany(new Company(1, "OOCL",
+                employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList()))));
+        List<Company> secondCompanyPage = new ArrayList<>();
+        secondCompanyPage.add(company);
+        given(companyRepository.findByPage(2, 1)).willReturn(secondCompanyPage);
+        // when
+        List<Company> companyByPage = companyService.findByPage(2, 1);
+        // then
+        assertEquals(1, companyByPage.size());
+        assertEquals(secondCompanyPage, companyByPage);
+    }
 }
