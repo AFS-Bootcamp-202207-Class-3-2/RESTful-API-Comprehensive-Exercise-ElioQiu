@@ -87,4 +87,26 @@ public class CompanyControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[*].gender", containsInAnyOrder("female", "male")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[*].salary", everyItem(is(8000))));
     }
+
+    @Test
+    void should_return_companies_by_page_when_perform_get_given_companies_by_page_and_pageSize() throws Exception{
+        // given
+        companyRepository.addCompany(new Company(1, "OOCL",
+                employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList()))));
+        companyRepository.addCompany(new Company(2, "CargoSmart",
+                employeeRepository.getEmployeesByIds(Stream.of(2, 3).collect(Collectors.toList()))));
+        // when
+        client.perform(MockMvcRequestBuilders.get("/companies")
+                        .param("page", "2")
+                        .param("pageSize", "1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].companyName").value("CargoSmart"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].employees.size()").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].employees[0].id").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].employees[0].name").value("Lucy"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].employees[1].id").value(3))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].employees[1].name").value("Jack"));
+        // should
+    }
 }
