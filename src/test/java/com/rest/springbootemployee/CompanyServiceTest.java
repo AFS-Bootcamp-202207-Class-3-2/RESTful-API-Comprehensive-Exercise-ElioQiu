@@ -73,6 +73,7 @@ public class CompanyServiceTest {
 
     @Test
     void should_find_by_second_page_when_get_given_company_page_and_pageSize() {
+        // given
         Company company = new Company(2, "CargoSmart",
                 employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList())));
         companyRepository.addCompany(company);
@@ -86,5 +87,17 @@ public class CompanyServiceTest {
         // then
         assertEquals(1, companyByPage.size());
         assertEquals(secondCompanyPage, companyByPage);
+    }
+
+    @Test
+    void should_return_new_company_when_post_given_new_company() {
+        // given
+        Company company = new Company(2, "CargoSmart",
+                employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList())));
+        given(companyRepository.addCompany(company)).willReturn(company);
+        // when
+        Company addCompany = companyService.addCompany(company);
+        // then
+        assertEquals(company, addCompany);
     }
 }
