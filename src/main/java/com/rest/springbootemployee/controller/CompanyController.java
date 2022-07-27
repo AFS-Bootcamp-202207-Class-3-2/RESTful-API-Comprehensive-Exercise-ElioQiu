@@ -3,6 +3,7 @@ package com.rest.springbootemployee.controller;
 import com.rest.springbootemployee.entity.Company;
 import com.rest.springbootemployee.entity.Employee;
 import com.rest.springbootemployee.repository.CompanyRepository;
+import com.rest.springbootemployee.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -13,42 +14,42 @@ import java.util.List;
 @RequestMapping("/companies")
 public class CompanyController {
     @Autowired
-    private CompanyRepository companyRepository;
+    private CompanyService companyService;
 
     @GetMapping
     public List<Company> findAll() {
-        return companyRepository.findAll();
+        return companyService.findAll();
     }
 
     @GetMapping("/{id}")
     public Company findById(@PathVariable Integer id){
-        return companyRepository.findById(id);
+        return companyService.findById(id);
     }
 
     @GetMapping("/{id}/employees")
     public List<Employee> findEmployeesByCompanyId(@PathVariable Integer id){
-        return companyRepository.findEmployeesByCompanyId(id);
+        return companyService.findEmployeesByCompanyId(id);
     }
 
     @GetMapping(params = {"page", "pageSize"})
     public List<Company> findByPage(@RequestParam Integer page, @RequestParam Integer pageSize) {
-        return companyRepository.findByPage(page, pageSize);
+        return companyService.findByPage(page, pageSize);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Company addCompany(@RequestBody Company company){
-        return companyRepository.addCompany(company);
+        return companyService.addCompany(company);
     }
 
     @PutMapping("/{id}")
     public Company updateCompanyById(@PathVariable Integer id, @RequestBody Company company) {
-        return companyRepository.updateCompanyById(id, company);
+        return companyService.updateCompanyById(id, company);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCompanyById(@PathVariable Integer id) {
-        companyRepository.deleteCompanyById(id);
+        companyService.deleteCompanyById(id);
     }
 }
