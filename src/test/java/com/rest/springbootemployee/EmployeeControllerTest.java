@@ -46,7 +46,35 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].age").value(22))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].gender").value("male"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].salary").value(8000));
-
         //should
     }
+
+    @Test
+    void should_create_a_new_employee_when_perform_post_given_a_new_employee() throws Exception {
+        // given
+        String newEmployeeJson = "{\n" +
+                "    \"name\" : \"Mike\",\n" +
+                "    \"age\": 44,\n" +
+                "    \"gender\": \"male\",\n" +
+                "    \"salary\": 8000\n" +
+                "}";
+        // when
+        client.perform(MockMvcRequestBuilders.post("/employees")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(newEmployeeJson))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Mike"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(44))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value("male"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(8000));
+
+        // should
+        List<Employee> employees = employeeRepository.findAll();
+        assertThat(employees, hasSize(1));
+        assertThat(employees.get(0).getName(), equalTo("Mike"));
+        assertThat(employees.get(0).getAge(), equalTo(44));
+        assertThat(employees.get(0).getGender(), equalTo("male"));
+        assertThat(employees.get(0).getSalary(), equalTo(8000));
+    }
+
 }
