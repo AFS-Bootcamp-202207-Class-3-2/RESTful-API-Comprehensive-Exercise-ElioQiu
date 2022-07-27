@@ -18,6 +18,8 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
 public class CompanyServiceTest {
@@ -115,5 +117,17 @@ public class CompanyServiceTest {
         assertEquals(2, update.getId());
         assertEquals("OOCL", update.getCompanyName());
         assertEquals(employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList())), update.getEmployees());
+    }
+
+    @Test
+    void should_return_0_when_delete_given_company_and_id() {
+        //given
+        Company company = new Company(2, "CargoSmart",
+                employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList())));
+        companyRepository.addCompany(company);
+        //when
+        companyService.deleteCompanyById(2);
+        //then
+        verify(companyRepository, times(1)).deleteCompanyById(2);
     }
 }
