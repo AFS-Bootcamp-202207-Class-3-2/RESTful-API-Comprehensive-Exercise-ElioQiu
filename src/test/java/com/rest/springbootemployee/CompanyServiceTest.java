@@ -100,4 +100,20 @@ public class CompanyServiceTest {
         // then
         assertEquals(company, addCompany);
     }
+
+    @Test
+    void should_update_only_companyName_when_update_given_company() {
+        // given
+        Company beforeUpdateCompany = new Company(2, "CargoSmart",
+                employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList())));
+        Company afterUpdateCompany = new Company(2, "OOCL",
+                employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList())));
+        given(companyRepository.findById(2)).willReturn(beforeUpdateCompany);
+        // when
+        Company update = companyService.updateCompanyById(2, afterUpdateCompany);
+        // then
+        assertEquals(2, update.getId());
+        assertEquals("OOCL", update.getCompanyName());
+        assertEquals(employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList())), update.getEmployees());
+    }
 }
