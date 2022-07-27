@@ -1,6 +1,7 @@
 package com.rest.springbootemployee;
 
 import com.rest.springbootemployee.entity.Company;
+import com.rest.springbootemployee.entity.Employee;
 import com.rest.springbootemployee.repository.CompanyRepository;
 import com.rest.springbootemployee.repository.EmployeeRepository;
 import org.hamcrest.Matchers;
@@ -14,9 +15,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
@@ -154,5 +157,18 @@ public class CompanyControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.companyName").value("OOIL"));
         //then
+    }
+
+    @Test
+    void should_return_null_when_perform_delete_given_delete_company_by_id() throws Exception {
+        // given
+        companyRepository.addCompany(new Company(1, "CargoSmart",
+                employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList()))));
+        //when
+        client.perform(MockMvcRequestBuilders.delete("/companies/{id}", 0))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+        //then
+        List<Company> companies = companyRepository.findAll();
+        assertThat(companies.size(), equalTo(0));
     }
 }
