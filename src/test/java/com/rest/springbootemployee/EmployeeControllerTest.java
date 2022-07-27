@@ -96,7 +96,7 @@ public class EmployeeControllerTest {
     @Test
     void should_update_employees_by_id_when_perform_put_given_a_new_employee() throws Exception {
         //given
-        employeeRepository.addEmployee(new Employee(1, "Mike", 44, "male", 8000));
+        employeeRepository.addEmployee(new Employee(0, "Mike", 44, "male", 8000));
         String updateEmployeeJson = "{\n" +
                 "    \"name\" : \"Mike\",\n" +
                 "    \"age\": 22,\n" +
@@ -114,5 +114,18 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(80000));
         //then
     }
+    
+    @Test
+    void should_return_null_when_perform_delete_given_delete_employee_by_id() throws Exception {
+        //given
+        employeeRepository.addEmployee(new Employee(0, "Mike", 44, "male", 8000));
+        //when
+        client.perform(MockMvcRequestBuilders.delete("/employees/{id}", 0))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+        //then
+        List<Employee> employees = employeeRepository.findAll();
+        assertThat(employees.size(), equalTo(0));
+    }
+    
 
 }
