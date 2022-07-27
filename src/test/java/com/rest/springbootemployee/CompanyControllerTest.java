@@ -3,6 +3,7 @@ package com.rest.springbootemployee;
 import com.rest.springbootemployee.entity.Company;
 import com.rest.springbootemployee.repository.CompanyRepository;
 import com.rest.springbootemployee.repository.EmployeeRepository;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
 @SpringBootTest
@@ -68,5 +71,20 @@ public class CompanyControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.employees[1].id").value(3))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.employees[1].name").value("Jack"));
         // should
+    }
+
+    @Test
+    void should_return_employees_when_get_given_company_id_and_company() throws Exception {
+        // given
+        companyRepository.addCompany(new Company(2, "CargoSmart",
+                employeeRepository.getEmployeesByIds(Stream.of(2, 3).collect(Collectors.toList()))));
+        // when
+        client.perform(MockMvcRequestBuilders.get("/companies/{id}/employees", 0))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[*].name", containsInAnyOrder("Lucy", "Jack")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[*].age", everyItem(is(22))))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[*].gender", containsInAnyOrder("female", "male")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[*].salary", everyItem(is(8000))));
     }
 }
