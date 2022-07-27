@@ -73,6 +73,24 @@ public class EmployeeServiceTest {
         assertEquals(employeeById, employee);
     }
 
+    @Test
+    void should_find_by_gender_when_get_given_employee_and_gender() {
+        //given
+        List<Employee> maleEmployees = new ArrayList<>();
+        Employee employeeByGender1 = new Employee(1, "Mike", 22, "male", 8000);
+        Employee employeeByGender2 = new Employee(3, "Jack", 22, "male", 8000);
+        employeeRepository.addEmployee(employeeByGender1);
+        employeeRepository.addEmployee(employeeByGender2);
+        employeeRepository.addEmployee(new Employee(2, "Lucy", 22, "female", 8000));
+        maleEmployees.add(employeeByGender1);
+        maleEmployees.add(employeeByGender2);
+        given(employeeRepository.findByGender("male")).willReturn(maleEmployees);
+        //when
+        List<Employee> employees = employeeService.findByGender("male");
+        //then
+        assertEquals(2, employees.size());
+        assertEquals(maleEmployees, employees);
+    }
 
     @Test
     void should_find_by_second_page_when_get_given_employee_page_and_pageSize() {

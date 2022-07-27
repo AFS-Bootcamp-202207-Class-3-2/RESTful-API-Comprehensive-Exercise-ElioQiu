@@ -34,4 +34,8 @@ public class EmployeeService {
     public Employee findById(int id) {
         return employeeRepository.findById(id);
     }
+
+    public List<Employee> findByGender(String gender) {
+        return employeeRepository.findByGender(gender);
+    }
 }
