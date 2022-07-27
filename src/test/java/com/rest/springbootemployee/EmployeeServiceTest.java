@@ -8,13 +8,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 public class EmployeeServiceTest {
@@ -123,6 +126,17 @@ public class EmployeeServiceTest {
         //then
         assertEquals(newEmployee, employees);
         //then
+    }
+
+    @Test
+    void should_return_0_when_delete_given_employee_and_id() {
+        //given
+        Employee employee = new Employee(1, "Mike", 22, "male", 8000);
+        employeeRepository.addEmployee(employee);
+        //when
+        employeeService.deleteEmployee(1);
+        //then
+        verify(employeeRepository, times(1)).deleteById(1);
     }
 
 }
