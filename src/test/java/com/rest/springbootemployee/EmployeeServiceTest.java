@@ -61,6 +61,20 @@ public class EmployeeServiceTest {
     }
 
     @Test
+    void should_find_by_id_when_get_given_employee_and_id() {
+        //given
+        Employee employeeById = new Employee(2, "Lucy", 22, "female", 8000);
+        employeeRepository.addEmployee(employeeById);
+        employeeRepository.addEmployee(new Employee(1, "Mike", 22, "male", 8000));
+        given(employeeRepository.findById(2)).willReturn(employeeById);
+        //when
+        Employee employee = employeeService.findById(2);
+        //then
+        assertEquals(employeeById, employee);
+    }
+
+
+    @Test
     void should_find_by_second_page_when_get_given_employee_page_and_pageSize() {
         //given
         Employee firstEmployee = new Employee(3, "Jack", 22, "male", 8000);
