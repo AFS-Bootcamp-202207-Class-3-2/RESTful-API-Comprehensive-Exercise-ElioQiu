@@ -138,4 +138,21 @@ public class CompanyControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.employees[0].gender").value("male"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.employees[0].salary").value(20000));
     }
+
+    @Test
+    void should_update_employees_by_id_when_perform_put_given_a_new_employee() throws Exception {
+        // given
+        companyRepository.addCompany(new Company(1, "CargoSmart",
+                employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList()))));
+        String updateCompanyJson = "{\n" +
+                "    \"companyName\" : \"OOIL\"\n" +
+                "}";
+        // when
+        client.perform(MockMvcRequestBuilders.put("/companies/{id}", 0)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updateCompanyJson))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.companyName").value("OOIL"));
+        //then
+    }
 }
