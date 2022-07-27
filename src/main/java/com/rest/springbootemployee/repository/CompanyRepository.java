@@ -66,15 +66,14 @@ public class CompanyRepository {
 
     public Company updateCompanyById(Integer id, Company company) {
         Company existingCompany = findById(id);
-        if (company.getEmployees() != null) {
-            existingCompany.setEmployees(company.getEmployees());
+        if (company.getCompanyName() != null) {
+            existingCompany.setCompanyName(company.getCompanyName());
         }
         return existingCompany;
     }
 
     public void deleteCompanyById(Integer id) {
         Company deletedCompany = findById(id);
-        employeeRepository.removeEmployees(deletedCompany.getEmployees());
         companies.remove(deletedCompany);
     }
 }

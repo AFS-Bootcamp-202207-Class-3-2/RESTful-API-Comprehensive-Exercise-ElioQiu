@@ -9,19 +9,19 @@ plugins {
 }
 
 // uncomment this block if you can not access maven central
-//allprojects {
-//    repositories {
-//        maven {
-//            url 'https://maven.aliyun.com/repository/public/'
-//        }
-//        mavenCentral()
-//    }
-//}
+allprojects {
+    repositories {
+        maven {
+            url 'https://maven.aliyun.com/repository/public/'
+        }
+        mavenCentral()
+    }
+}
 
 // comment this block and uncomment the block above to switch to maven.aliyun.com
-repositories {
-    mavenCentral()
-}
+//repositories {
+//    mavenCentral()
+//}
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'

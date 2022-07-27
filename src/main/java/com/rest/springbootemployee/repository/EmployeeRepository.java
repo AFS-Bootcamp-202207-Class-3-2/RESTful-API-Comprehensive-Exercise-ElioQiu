@@ -81,7 +81,4 @@ public class EmployeeRepository {
                 .collect(Collectors.toList());
     }
 
-    public void removeEmployees(List<Employee> employees) {
-        employees.forEach(employees::remove);
-    }
 }
