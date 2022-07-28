@@ -42,14 +42,14 @@ public class CompanyControllerTest {
     @Test
     void should_get_all_companies_when_perform_get_given_companies() throws Exception {
         // given
-        companyRepository.addCompany(new Company(2, "CargoSmart",
+        companyRepository.addCompany(new Company(2, "AppleCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(2, 3).collect(Collectors.toList()))));
         // when
         client.perform(MockMvcRequestBuilders.get("/companies"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").isNumber())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].companyName").value("CargoSmart"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].companyName").value("AppleCompany"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].employees.size()").value(2))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].employees[0].id").value(2))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].employees[0].name").value("Lucy"))
@@ -61,13 +61,13 @@ public class CompanyControllerTest {
     @Test
     void should_find_company_by_id_when_get_given_company_id() throws Exception {
         // given
-        companyRepository.addCompany(new Company(2, "CargoSmart",
+        companyRepository.addCompany(new Company(2, "AppleCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(2, 3).collect(Collectors.toList()))));
         // when
         client.perform(MockMvcRequestBuilders.get("/companies/{id}", 0))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.companyName").value("CargoSmart"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.companyName").value("AppleCompany"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.employees.size()").value(2))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.employees[0].id").value(2))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.employees[0].name").value("Lucy"))
@@ -79,7 +79,7 @@ public class CompanyControllerTest {
     @Test
     void should_find_company_by_id_when_get_given_company_not_exist_id() throws Exception {
         // given
-        companyRepository.addCompany(new Company(2, "CargoSmart",
+        companyRepository.addCompany(new Company(2, "AppleCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(2, 3).collect(Collectors.toList()))));
         // when
         client.perform(MockMvcRequestBuilders.get("/companies/{id}", 2))
@@ -90,7 +90,7 @@ public class CompanyControllerTest {
     @Test
     void should_return_employees_when_get_given_company_id_and_company() throws Exception {
         // given
-        companyRepository.addCompany(new Company(2, "CargoSmart",
+        companyRepository.addCompany(new Company(2, "AppleCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(2, 3).collect(Collectors.toList()))));
         // when
         client.perform(MockMvcRequestBuilders.get("/companies/{id}/employees", 0))
@@ -105,9 +105,9 @@ public class CompanyControllerTest {
     @Test
     void should_return_companies_by_page_when_perform_get_given_companies_by_page_and_pageSize() throws Exception{
         // given
-        companyRepository.addCompany(new Company(1, "OOCL",
+        companyRepository.addCompany(new Company(1, "BananaCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList()))));
-        companyRepository.addCompany(new Company(2, "CargoSmart",
+        companyRepository.addCompany(new Company(2, "AppleCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(2, 3).collect(Collectors.toList()))));
         // when
         client.perform(MockMvcRequestBuilders.get("/companies")
@@ -115,7 +115,7 @@ public class CompanyControllerTest {
                         .param("pageSize", "1"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").isNumber())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].companyName").value("CargoSmart"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].companyName").value("AppleCompany"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].employees.size()").value(2))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].employees[0].id").value(2))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].employees[0].name").value("Lucy"))
@@ -128,7 +128,7 @@ public class CompanyControllerTest {
     void should_create_a_new_company_when_perform_post_given_a_new_company() throws Exception {
         // given
         String newCompanyJson = "{\n" +
-                "    \"companyName\" : \"OOIL\",\n" +
+                "    \"companyName\" : \"PearCompany\",\n" +
                 "    \"employees\": [\n" +
                 "        {\n" +
                 "            \"name\": \"Jackson\",\n" +
@@ -144,7 +144,7 @@ public class CompanyControllerTest {
                         .content(newCompanyJson))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.companyName").value("OOIL"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.companyName").value("PearCompany"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.employees.size()").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.employees[0].name").value("Jackson"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.employees[0].age").value(44))
@@ -155,24 +155,24 @@ public class CompanyControllerTest {
     @Test
     void should_update_employees_by_id_when_perform_put_given_a_new_employee() throws Exception {
         // given
-        companyRepository.addCompany(new Company(1, "CargoSmart",
+        companyRepository.addCompany(new Company(1, "AppleCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList()))));
         String updateCompanyJson = "{\n" +
-                "    \"companyName\" : \"OOIL\"\n" +
+                "    \"companyName\" : \"PearCompany\"\n" +
                 "}";
         // when
         client.perform(MockMvcRequestBuilders.put("/companies/{id}", 0)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(updateCompanyJson))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.companyName").value("OOIL"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.companyName").value("PearCompany"));
         //then
     }
 
     @Test
     void should_return_null_when_perform_delete_given_delete_company_by_id() throws Exception {
         // given
-        companyRepository.addCompany(new Company(1, "CargoSmart",
+        companyRepository.addCompany(new Company(1, "AppleCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList()))));
         //when
         client.perform(MockMvcRequestBuilders.delete("/companies/{id}", 0))

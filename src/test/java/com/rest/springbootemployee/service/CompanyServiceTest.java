@@ -34,7 +34,7 @@ public class CompanyServiceTest {
     void should_return_all_companies_when_find_all_given_employees() {
         // given
         List<Company> preparedCompanies = new ArrayList<>();
-        Company firstCompany = new Company(2, "CargoSmart",
+        Company firstCompany = new Company(2, "AppleCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(2, 3).collect(Collectors.toList())));
         preparedCompanies.add(firstCompany);
         given(companyRepository.findAll()).willReturn(preparedCompanies);
@@ -47,7 +47,7 @@ public class CompanyServiceTest {
     @Test
     void should_find_by_id_when_get_given_company_and_id() {
         // given
-        Company companyById = new Company(2, "CargoSmart",
+        Company companyById = new Company(2, "AppleCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(2, 3).collect(Collectors.toList())));
         companyRepository.addCompany(companyById);
         given(companyRepository.findById(2)).willReturn(companyById);
@@ -60,7 +60,7 @@ public class CompanyServiceTest {
     @Test
     void should_return_employees_by_company_id_when_get_given_company_and_id() {
         // given
-        Company company = new Company(2, "CargoSmart",
+        Company company = new Company(2, "AppleCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList())));
         companyRepository.addCompany(company);
         List<Employee> exceptEmployees = new ArrayList<>();
@@ -76,10 +76,10 @@ public class CompanyServiceTest {
     @Test
     void should_find_by_second_page_when_get_given_company_page_and_pageSize() {
         // given
-        Company company = new Company(2, "CargoSmart",
+        Company company = new Company(2, "AppleCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList())));
         companyRepository.addCompany(company);
-        companyRepository.addCompany(new Company(1, "OOCL",
+        companyRepository.addCompany(new Company(1, "BananaCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList()))));
         List<Company> secondCompanyPage = new ArrayList<>();
         secondCompanyPage.add(company);
@@ -94,7 +94,7 @@ public class CompanyServiceTest {
     @Test
     void should_return_new_company_when_post_given_new_company() {
         // given
-        Company company = new Company(2, "CargoSmart",
+        Company company = new Company(2, "AppleCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList())));
         given(companyRepository.addCompany(company)).willReturn(company);
         // when
@@ -106,25 +106,22 @@ public class CompanyServiceTest {
     @Test
     void should_update_only_companyName_when_update_given_company() {
         // given
-        Company beforeUpdateCompany = new Company(2, "CargoSmart",
+        Company beforeUpdateCompany = new Company(2, "AppleCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList())));
-        Company afterUpdateCompany = new Company(2, "OOCL",
+        Company afterUpdateCompany = new Company(2, "BananaCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList())));
         given(companyRepository.findById(2)).willReturn(beforeUpdateCompany);
         // when
         Company update = companyService.updateCompanyById(2, afterUpdateCompany);
         // then
         assertEquals(2, update.getId());
-        assertEquals("OOCL", update.getCompanyName());
+        assertEquals("BananaCompany", update.getCompanyName());
         assertEquals(employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList())), update.getEmployees());
     }
 
     @Test
     void should_return_0_when_delete_given_company_and_id() {
         //given
-        Company company = new Company(2, "CargoSmart",
-                employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList())));
-        companyRepository.addCompany(company);
         //when
         companyService.deleteCompanyById(2);
         //then
