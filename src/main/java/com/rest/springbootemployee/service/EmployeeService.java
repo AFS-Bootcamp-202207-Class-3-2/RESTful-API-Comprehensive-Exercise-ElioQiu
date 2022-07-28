@@ -51,6 +51,7 @@ public class EmployeeService {
     }
 
     public void deleteEmployee(int id) {
-        employeeJpaRepository.deleteById(id);
+        employeeJpaRepository.delete(findById(id));
+//        employeeJpaRepository.deleteById(id);
     }
 }
