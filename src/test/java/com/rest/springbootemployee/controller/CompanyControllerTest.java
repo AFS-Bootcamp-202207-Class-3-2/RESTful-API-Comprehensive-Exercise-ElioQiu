@@ -1,4 +1,4 @@
-package com.rest.springbootemployee;
+package com.rest.springbootemployee.controller;
 
 import com.rest.springbootemployee.entity.Company;
 import com.rest.springbootemployee.repository.CompanyRepository;
