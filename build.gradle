@@ -25,10 +25,10 @@ allprojects {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-//    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-//    runtimeOnly 'mysql:mysql-connector-java:8.0.29'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'mysql:mysql-connector-java:8.0.29'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//    testImplementation 'com.h2database:h2:2.1.212'
+    testImplementation 'com.h2database:h2:2.1.212'
     compileOnly 'org.projectlombok:lombok:1.18.4'
     annotationProcessor 'org.projectlombok:lombok:1.18.4'
     testCompileOnly 'org.projectlombok:lombok:1.18.4'
