@@ -66,6 +66,16 @@ public class EmployeeControllerTest {
     }
 
     @Test
+    void should_find_by_id_when_get_given_Not_exist_id() throws Exception {
+        // given
+        employeeRepository.addEmployee(new Employee(1, "Mike", 22, "male", 8000));
+        // when
+        client.perform(MockMvcRequestBuilders.get("/employees/{id}", 1))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+        //should
+    }
+
+    @Test
     void should_create_a_new_employee_when_perform_post_given_a_new_employee() throws Exception {
         // given
         String newEmployeeJson = "{\n" +

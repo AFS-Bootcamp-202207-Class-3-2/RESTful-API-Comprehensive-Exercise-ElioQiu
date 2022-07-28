@@ -77,6 +77,17 @@ public class CompanyControllerTest {
     }
 
     @Test
+    void should_find_company_by_id_when_get_given_company_not_exist_id() throws Exception {
+        // given
+        companyRepository.addCompany(new Company(2, "CargoSmart",
+                employeeRepository.getEmployeesByIds(Stream.of(2, 3).collect(Collectors.toList()))));
+        // when
+        client.perform(MockMvcRequestBuilders.get("/companies/{id}", 2))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+        // should
+    }
+
+    @Test
     void should_return_employees_when_get_given_company_id_and_company() throws Exception {
         // given
         companyRepository.addCompany(new Company(2, "CargoSmart",
