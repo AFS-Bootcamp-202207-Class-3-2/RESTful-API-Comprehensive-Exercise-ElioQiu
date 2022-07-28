@@ -2,8 +2,12 @@ package com.rest.springbootemployee.service;
 
 import com.rest.springbootemployee.entity.Company;
 import com.rest.springbootemployee.entity.Employee;
+import com.rest.springbootemployee.exception.CompanyNotFoundException;
+import com.rest.springbootemployee.repository.CompanyJpaRepository;
 import com.rest.springbootemployee.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,30 +16,33 @@ import java.util.List;
 public class CompanyService {
 
     @Autowired
-    private CompanyRepository companyRepository;
+    private CompanyJpaRepository companyJpaRepository;
 
     public List<Company> findAll() {
-        return companyRepository.findAll();
+        return companyJpaRepository.findAll();
     }
 
     public Company findById(Integer id) {
-        return companyRepository.findById(id);
+        return companyJpaRepository.findById(id)
+                .orElseThrow(CompanyNotFoundException::new);
     }
 
     public List<Employee> findEmployeesByCompanyId(Integer id) {
-        return companyRepository.findEmployeesByCompanyId(id);
+        return companyJpaRepository.findById(id)
+                .orElseThrow(CompanyNotFoundException::new)
+                .getEmployees();
     }
 
-    public List<Company> findByPage(Integer page, Integer pageSize) {
-        return companyRepository.findByPage(page, pageSize);
+    public Page<Company> findByPage(Integer page, Integer pageSize) {
+        return companyJpaRepository.findAll(PageRequest.of(page, pageSize));
     }
 
     public Company addCompany(Company company) {
-        return companyRepository.addCompany(company);
+        return companyJpaRepository.save(company);
     }
 
     public void deleteCompanyById(Integer id) {
-        companyRepository.deleteCompanyById(id);
+        companyJpaRepository.deleteById(id);
     }
 
     public Company updateCompanyById(Integer id, Company company) {
@@ -43,6 +50,7 @@ public class CompanyService {
         if (company.getCompanyName() != null) {
             existingCompany.setCompanyName(company.getCompanyName());
         }
+        companyJpaRepository.save(existingCompany);
         return existingCompany;
     }
 }

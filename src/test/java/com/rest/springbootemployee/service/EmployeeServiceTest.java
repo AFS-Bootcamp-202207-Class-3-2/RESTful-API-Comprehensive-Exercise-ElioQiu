@@ -102,11 +102,11 @@ public class EmployeeServiceTest {
         secondPageEmployee.add(secondEmployee);
         given(employeeRepository.findByPage(2, 2)).willReturn(secondPageEmployee);
         //when
-        List<Employee> employees = employeeService.findByPage(2, 2);
+        Page<Employee> employeePage = employeeService.findByPage(2, 2);
         //then
-        assertEquals(2, employees.size());
-        assertEquals(firstEmployee, employees.get(0));
-        assertEquals(secondEmployee, employees.get(1));
+        assertEquals(2, employeePage.getSize());
+        assertEquals(firstEmployee, employeePage.getContent().get(0));
+        assertEquals(secondEmployee, employeePage.getContent().get(1));
     }
 
     @Test

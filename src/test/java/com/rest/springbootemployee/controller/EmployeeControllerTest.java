@@ -30,6 +30,9 @@ public class EmployeeControllerTest {
     @Autowired
     EmployeeRepository employeeRepository;
 
+    @Autowired
+    EmployeeJpaRepository employeeJpaRepository;
+
     @BeforeEach
     void clearEmployeeInRepository() {
         employeeRepository.clearAll();
@@ -38,7 +41,8 @@ public class EmployeeControllerTest {
     @Test
     void should_get_all_employees_when_perform_get_given_employees() throws Exception {
         // given
-        employeeRepository.addEmployee(new Employee(1, "Mike", 22, "male", 8000));
+        employeeJpaRepository.save(new Employee(1, "Mike", 22, "male", 8000));
+
         // when
         client.perform(MockMvcRequestBuilders.get("/employees"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
