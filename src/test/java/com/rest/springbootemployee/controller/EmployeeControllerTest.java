@@ -171,17 +171,6 @@ public class EmployeeControllerTest {
     @Test
     void should_return_employees_by_page_when_perform_get_given_employees_by_page_and_pageSize() throws Exception {
         //given
-//        List<Employee> employeeList = new ArrayList<>();
-//        employeeList.add(new Employee(null, "Mike", 22, "male", 8000,preparedCompany.getId()));
-//        employeeList.add(new Employee(null, "Lucy", 22, "male", 8000,preparedCompany.getId()));
-//        employeeList.add(new Employee(null, "Jack", 22, "male", 8000,preparedCompany.getId()));
-//        employeeList.add(new Employee(null, "Lisa", 22, "male", 8000,preparedCompany.getId()));
-//        employeeList.add(new Employee(null, "Tom", 22, "male", 8000,preparedCompany.getId()));
-//        employeeList.add(new Employee(null, "Susan", 22, "male", 8000,preparedCompany.getId()));
-//        List<Employee> employees = employeeJpaRepository.saveAllAndFlush(employeeList);
-//        assertEquals(6, employees.size());
-//        client.perform(MockMvcRequestBuilders.get("/employees"))
-//                        .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(6)));
         employeeJpaRepository.save(new Employee(null, "Mike", 22, "male", 8000,preparedCompany.getId()));
         employeeJpaRepository.save(new Employee(null, "Lucy", 22, "female", 8000, preparedCompany.getId()));
         employeeJpaRepository.save(new Employee(null, "Jack", 22, "male", 8000, preparedCompany.getId()));

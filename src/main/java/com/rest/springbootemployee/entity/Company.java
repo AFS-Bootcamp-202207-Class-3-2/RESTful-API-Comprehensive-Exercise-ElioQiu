@@ -18,7 +18,6 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String companyName;
-    private Integer companyNumber;
     @OneToMany
     @JoinColumn(name = "companyId")
     private List<Employee> employees;

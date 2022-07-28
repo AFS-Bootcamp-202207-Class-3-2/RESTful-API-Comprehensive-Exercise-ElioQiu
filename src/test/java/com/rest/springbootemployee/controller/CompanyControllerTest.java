@@ -46,7 +46,7 @@ public class CompanyControllerTest {
     @Test
     void should_get_all_companies_when_perform_get_given_companies() throws Exception {
         // given
-        companyJpaRepository.save(new Company(2, "AppleCompany", 2,
+        companyJpaRepository.save(new Company(2, "AppleCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(3, 4).collect(Collectors.toList()))));
         // when
         client.perform(MockMvcRequestBuilders.get("/companies"))
@@ -65,7 +65,7 @@ public class CompanyControllerTest {
     @Test
     void should_find_company_by_id_when_get_given_company_id() throws Exception {
         // given
-        companyRepository.addCompany(new Company(2, "AppleCompany", 2,
+        companyRepository.addCompany(new Company(2, "AppleCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(3, 4).collect(Collectors.toList()))));
         // when
         client.perform(MockMvcRequestBuilders.get("/companies/{id}", 0))
@@ -83,7 +83,7 @@ public class CompanyControllerTest {
     @Test
     void should_find_company_by_id_when_get_given_company_not_exist_id() throws Exception {
         // given
-        companyRepository.addCompany(new Company(2, "AppleCompany", 2,
+        companyRepository.addCompany(new Company(2, "AppleCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(3, 4).collect(Collectors.toList()))));
         // when
         client.perform(MockMvcRequestBuilders.get("/companies/{id}", 2))
@@ -94,7 +94,7 @@ public class CompanyControllerTest {
     @Test
     void should_return_employees_when_get_given_company_id_and_company() throws Exception {
         // given
-        companyRepository.addCompany(new Company(2, "AppleCompany", 2,
+        companyRepository.addCompany(new Company(2, "AppleCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(3, 4).collect(Collectors.toList()))));
         // when
         client.perform(MockMvcRequestBuilders.get("/companies/{id}/employees", 0))
@@ -109,9 +109,9 @@ public class CompanyControllerTest {
     @Test
     void should_return_companies_by_page_when_perform_get_given_companies_by_page_and_pageSize() throws Exception{
         // given
-        companyRepository.addCompany(new Company(1, "BananaCompany", 1,
+        companyRepository.addCompany(new Company(1, "BananaCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(1, 2).collect(Collectors.toList()))));
-        companyRepository.addCompany(new Company(2, "AppleCompany", 2,
+        companyRepository.addCompany(new Company(2, "AppleCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(3, 4).collect(Collectors.toList()))));
         // when
         client.perform(MockMvcRequestBuilders.get("/companies")
@@ -159,7 +159,7 @@ public class CompanyControllerTest {
     @Test
     void should_update_employees_by_id_when_perform_put_given_a_new_employee() throws Exception {
         // given
-        companyRepository.addCompany(new Company(1, "AppleCompany", 1,
+        companyRepository.addCompany(new Company(1, "AppleCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(1, 2).collect(Collectors.toList()))));
         String updateCompanyJson = "{\n" +
                 "    \"companyName\" : \"PearCompany\"\n" +
@@ -176,7 +176,7 @@ public class CompanyControllerTest {
     @Test
     void should_return_null_when_perform_delete_given_delete_company_by_id() throws Exception {
         // given
-        companyRepository.addCompany(new Company(1, "AppleCompany", 1,
+        companyRepository.addCompany(new Company(1, "AppleCompany",
                 employeeRepository.getEmployeesByIds(Stream.of(1, 2).collect(Collectors.toList()))));
         //when
         client.perform(MockMvcRequestBuilders.delete("/companies/{id}", 0))
