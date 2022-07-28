@@ -30,7 +30,6 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 @AutoConfigureMockMvc
 @ActiveProfiles(profiles = "test")
 public class CompanyControllerTest {
-    private final EmployeeRepository employeeRepository = new EmployeeRepository();
 
     @Autowired
     MockMvc client;
@@ -153,8 +152,6 @@ public class CompanyControllerTest {
         String newCompanyJson = "{\n" +
                 "    \"companyName\": \"AppleCompany\"\n" +
                 "}\n";
-        //when
-
         //when
         client.perform(MockMvcRequestBuilders.post("/companies")
                         .contentType(MediaType.APPLICATION_JSON)
