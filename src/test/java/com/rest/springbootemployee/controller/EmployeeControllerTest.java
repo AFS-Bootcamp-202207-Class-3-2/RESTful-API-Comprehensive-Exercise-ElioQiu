@@ -1,6 +1,7 @@
 package com.rest.springbootemployee.controller;
 
 import com.rest.springbootemployee.entity.Employee;
+import com.rest.springbootemployee.repository.EmployeeJpaRepository;
 import com.rest.springbootemployee.repository.EmployeeRepository;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
