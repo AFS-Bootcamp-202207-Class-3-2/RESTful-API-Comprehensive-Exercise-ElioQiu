@@ -21,11 +21,11 @@ public class CompanyRepository {
 
     public CompanyRepository() {
         this.companies = new ArrayList<>();
-        companies.add(new Company(1, "OOCL", 1,
+        companies.add(new Company(1, "OOCL",
                 employeeRepository.getEmployeesByIds(Stream.of(1).collect(Collectors.toList()))));
-        companies.add(new Company(2, "CargoSmart", 1,
+        companies.add(new Company(2, "CargoSmart",
                 employeeRepository.getEmployeesByIds(Stream.of(2, 3).collect(Collectors.toList()))));
-        companies.add(new Company(3, "IQAX",1,
+        companies.add(new Company(3, "IQAX",
                 employeeRepository.getEmployeesByIds(Stream.of(4, 5, 6).collect(Collectors.toList()))));
     }
 
