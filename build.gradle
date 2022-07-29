@@ -33,6 +33,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.4'
     testCompileOnly 'org.projectlombok:lombok:1.18.4'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.4'
+    implementation 'org.flywaydb:flyway-mysql'
 }
 
 group = 'com.thoughtworks'
