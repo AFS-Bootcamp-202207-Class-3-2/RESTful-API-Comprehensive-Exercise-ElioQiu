@@ -59,7 +59,7 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Mike"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].age").value(22))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].gender").value("male"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].salary").value(8000));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].salary").doesNotExist());
         //should
     }
 
@@ -75,7 +75,7 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Mike"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(22))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value("male"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(8000));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").doesNotExist());
         //should
     }
 
@@ -107,7 +107,7 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Mike"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(44))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value("male"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(8000));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").doesNotExist());
 
         // should
         List<Employee> employees = employeeJpaRepository.findAll();
@@ -130,7 +130,7 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[*].name", containsInAnyOrder("Mike", "Jack")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[*].age", containsInAnyOrder(22, 23)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[*].gender", everyItem(is("male"))))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[*].salary", containsInAnyOrder(8000, 80000)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[*].salary", everyItem(is(null))));
         // should
     }
 
@@ -152,7 +152,7 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Mike"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(22))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value("male"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(80000));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").doesNotExist());
         //then
     }
     
@@ -183,7 +183,7 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].name").value("Mike"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].age").value(22))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].gender").value("male"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].salary").value(8000));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].salary").doesNotExist());
         //then
     }
 
