@@ -4,7 +4,6 @@ import com.rest.springbootemployee.controller.dto.CompanyResponse;
 import com.rest.springbootemployee.controller.mapper.CompanyMapper;
 import com.rest.springbootemployee.entity.Company;
 import com.rest.springbootemployee.entity.Employee;
-import com.rest.springbootemployee.repository.CompanyRepository;
 import com.rest.springbootemployee.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,8 +30,8 @@ public class CompanyController {
     }
 
     @GetMapping("/{id}")
-    public Company findById(@PathVariable Integer id){
-        return companyService.findById(id);
+    public CompanyResponse findById(@PathVariable Integer id){
+        return companyMapper.toResponse(companyService.findById(id));
     }
 
     @GetMapping("/{id}/employees")
