@@ -9,6 +9,7 @@ import com.rest.springbootemployee.entity.Employee;
 import com.rest.springbootemployee.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,8 +48,12 @@ public class CompanyController {
     }
 
     @GetMapping(params = {"page", "pageSize"})
-    public Page<Company> findByPage(@RequestParam Integer page, @RequestParam Integer pageSize) {
-        return companyService.findByPage(page, pageSize);
+    public Page<CompanyResponse> findByPage(@RequestParam Integer page, @RequestParam Integer pageSize) {
+        List<Company> companies = companyService.findByPage(page, pageSize).toList();
+        List<CompanyResponse> collect = companies.stream()
+                .map(company -> companyMapper.toResponse(company))
+                .collect(Collectors.toList());
+        return new PageImpl<CompanyResponse>(collect);
     }
 
     @PostMapping
