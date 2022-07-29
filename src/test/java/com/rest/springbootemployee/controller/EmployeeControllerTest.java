@@ -66,10 +66,10 @@ public class EmployeeControllerTest {
     @Test
     void should_find_by_id_when_get_given_id() throws Exception {
         // given
-        Employee employee = new Employee(1, "Mike", 22, "male", 8000, preparedCompany.getId());
-        employeeJpaRepository.save(employee);
+        Employee save = employeeJpaRepository.save(
+                new Employee(1, "Mike", 22, "male", 8000, preparedCompany.getId()));
         // when
-        client.perform(MockMvcRequestBuilders.get("/employees/{id}", employee.getId()))
+        client.perform(MockMvcRequestBuilders.get("/employees/{id}", save.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Mike"))

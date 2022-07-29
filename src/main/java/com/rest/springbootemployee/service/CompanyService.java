@@ -28,9 +28,7 @@ public class CompanyService {
     }
 
     public List<Employee> findEmployeesByCompanyId(Integer id) {
-        return companyJpaRepository.findById(id)
-                .orElseThrow(CompanyNotFoundException::new)
-                .getEmployees();
+        return findById(id).getEmployees();
     }
 
     public Page<Company> findByPage(Integer page, Integer pageSize) {

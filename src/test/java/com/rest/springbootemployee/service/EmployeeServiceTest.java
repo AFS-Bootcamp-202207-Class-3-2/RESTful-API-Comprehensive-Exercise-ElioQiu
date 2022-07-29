@@ -126,12 +126,13 @@ public class EmployeeServiceTest {
     @Test
     void should_return_0_when_delete_given_employee_and_id() {
         //given
-        given(employeeJpaRepository.existsById(1)).willReturn(true);
+        Employee employee = new Employee(1, "Mike", 22, "male", 8000, 1);
+        given(employeeJpaRepository.findById(1)).willReturn(Optional.of(employee));
         //when
-//        employeeService.deleteEmployee(1);
-        employeeJpaRepository.deleteById(1);
+        employeeService.deleteEmployee(1);
+//        employeeJpaRepository.deleteById(1);
         //then
-        verify(employeeJpaRepository,times(1)).deleteById(1);
+        verify(employeeJpaRepository,times(1)).delete(employee);
     }
 
 }
