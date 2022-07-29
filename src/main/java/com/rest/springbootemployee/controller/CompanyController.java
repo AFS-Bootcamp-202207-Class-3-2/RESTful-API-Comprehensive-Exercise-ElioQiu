@@ -1,7 +1,9 @@
 package com.rest.springbootemployee.controller;
 
 import com.rest.springbootemployee.controller.dto.CompanyResponse;
+import com.rest.springbootemployee.controller.dto.EmployeeResponse;
 import com.rest.springbootemployee.controller.mapper.CompanyMapper;
+import com.rest.springbootemployee.controller.mapper.EmployeeMapper;
 import com.rest.springbootemployee.entity.Company;
 import com.rest.springbootemployee.entity.Employee;
 import com.rest.springbootemployee.service.CompanyService;
@@ -22,6 +24,9 @@ public class CompanyController {
     @Autowired
     private CompanyMapper companyMapper;
 
+    @Autowired
+    private EmployeeMapper employeeMapper;
+
     @GetMapping
     public List<CompanyResponse> findAll() {
         return companyService.findAll().stream()
@@ -35,8 +40,10 @@ public class CompanyController {
     }
 
     @GetMapping("/{id}/employees")
-    public List<Employee> findEmployeesByCompanyId(@PathVariable Integer id){
-        return companyService.findEmployeesByCompanyId(id);
+    public List<EmployeeResponse> findEmployeesByCompanyId(@PathVariable Integer id){
+        return companyService.findEmployeesByCompanyId(id).stream()
+                .map(employee -> employeeMapper.toResponse(employee))
+                .collect(Collectors.toList());
     }
 
     @GetMapping(params = {"page", "pageSize"})

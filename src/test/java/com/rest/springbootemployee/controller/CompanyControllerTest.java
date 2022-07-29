@@ -121,7 +121,7 @@ public class CompanyControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[*].name", containsInAnyOrder("Mike", "Jack")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[*].age", everyItem(is(22))))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[*].gender", everyItem(is("male"))))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[*].salary", everyItem(is(8000))));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[*].salary").doesNotExist());
     }
 
     @Test
