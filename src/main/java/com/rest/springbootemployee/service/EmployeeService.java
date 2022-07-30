@@ -3,7 +3,6 @@ package com.rest.springbootemployee.service;
 import com.rest.springbootemployee.entity.Employee;
 import com.rest.springbootemployee.exception.EmployeeNotFoundException;
 import com.rest.springbootemployee.repository.EmployeeJpaRepository;
-import com.rest.springbootemployee.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

@@ -4,7 +4,6 @@ import com.rest.springbootemployee.entity.Company;
 import com.rest.springbootemployee.entity.Employee;
 import com.rest.springbootemployee.exception.CompanyNotFoundException;
 import com.rest.springbootemployee.repository.CompanyJpaRepository;
-import com.rest.springbootemployee.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

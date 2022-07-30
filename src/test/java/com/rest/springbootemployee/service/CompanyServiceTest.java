@@ -3,12 +3,12 @@ package com.rest.springbootemployee.service;
 import com.rest.springbootemployee.entity.Company;
 import com.rest.springbootemployee.entity.Employee;
 import com.rest.springbootemployee.repository.CompanyJpaRepository;
-import com.rest.springbootemployee.repository.CompanyRepository;
-import com.rest.springbootemployee.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
@@ -22,9 +22,6 @@ import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
 public class CompanyServiceTest {
-
-    @Mock
-    CompanyRepository companyRepository;
 
     @Mock
     CompanyJpaRepository companyJpaRepository;
@@ -81,7 +78,8 @@ public class CompanyServiceTest {
         companyJpaRepository.save(new Company(2, "BananaCompany", null));
         List<Company> companyPage = new ArrayList<>();
         companyPage.add(company);
-        given(companyRepository.findByPage(0, 1)).willReturn(companyPage);
+        PageImpl page = new PageImpl<>(companyPage);
+        given(companyJpaRepository.findAll(PageRequest.of(0, 1))).willReturn(page);
     }
 
     @Test

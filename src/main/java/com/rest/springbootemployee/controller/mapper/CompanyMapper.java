@@ -6,12 +6,10 @@ import com.rest.springbootemployee.controller.dto.EmployeeResponse;
 import com.rest.springbootemployee.entity.Company;
 import com.rest.springbootemployee.entity.Employee;
 import com.rest.springbootemployee.repository.EmployeeJpaRepository;
-import com.rest.springbootemployee.repository.EmployeeRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -3,9 +3,7 @@ package com.rest.springbootemployee.controller;
 import com.rest.springbootemployee.entity.Company;
 import com.rest.springbootemployee.entity.Employee;
 import com.rest.springbootemployee.repository.CompanyJpaRepository;
-import com.rest.springbootemployee.repository.CompanyRepository;
 import com.rest.springbootemployee.repository.EmployeeJpaRepository;
-import com.rest.springbootemployee.repository.EmployeeRepository;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,9 +31,6 @@ public class CompanyControllerTest {
 
     @Autowired
     MockMvc client;
-
-    @Autowired
-    CompanyRepository companyRepository;
 
     @Autowired
     CompanyJpaRepository companyJpaRepository;
