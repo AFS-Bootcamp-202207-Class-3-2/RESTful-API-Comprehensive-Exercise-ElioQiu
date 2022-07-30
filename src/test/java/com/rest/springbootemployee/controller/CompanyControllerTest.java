@@ -155,8 +155,10 @@ public class CompanyControllerTest {
                 "        1, 2, 3, 4, 5, 6, 7, 8, 9\n" +
                 "    ]\n" +
                 "}";
-        Employee save = employeeJpaRepository.save(
+        Employee save1 = employeeJpaRepository.save(
                 new Employee(null, "Susan", 22, "female", 8000, null));
+        Employee save2 = employeeJpaRepository.save(
+                new Employee(null, "Lisa", 25, "female", 7000, null));
         //when
         client.perform(MockMvcRequestBuilders.post("/companies")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -164,7 +166,8 @@ public class CompanyControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.companyName").value("AppleCompany"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[0].id").value(save.getId()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[0].id").value(save1.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[1].id").value(save2.getId()));
         //then
     }
 
@@ -172,12 +175,12 @@ public class CompanyControllerTest {
     void should_update_employees_by_id_when_perform_put_given_a_new_employee() throws Exception {
         // given
         preparedCompany.setEmployees(Arrays.asList(prepareMike(), prepareJack()));
-        companyJpaRepository.save(preparedCompany);
+        Company save = companyJpaRepository.save(preparedCompany);
         String updateCompanyJson = "{\n" +
                 "    \"companyName\" : \"PearCompany\"\n" +
                 "}";
         // when
-        client.perform(MockMvcRequestBuilders.put("/companies/{id}", preparedCompany.getId())
+        client.perform(MockMvcRequestBuilders.put("/companies/{id}", save.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(updateCompanyJson))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
