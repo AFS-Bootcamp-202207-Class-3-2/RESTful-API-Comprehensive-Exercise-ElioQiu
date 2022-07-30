@@ -1,11 +1,11 @@
 package com.rest.springbootemployee.controller;
 
+import com.rest.springbootemployee.controller.dto.CompanyRequest;
 import com.rest.springbootemployee.controller.dto.CompanyResponse;
 import com.rest.springbootemployee.controller.dto.EmployeeResponse;
 import com.rest.springbootemployee.controller.mapper.CompanyMapper;
 import com.rest.springbootemployee.controller.mapper.EmployeeMapper;
 import com.rest.springbootemployee.entity.Company;
-import com.rest.springbootemployee.entity.Employee;
 import com.rest.springbootemployee.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -58,8 +58,8 @@ public class CompanyController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Company addCompany(@RequestBody Company company){
-        return companyService.addCompany(company);
+    public Company addCompany(@RequestBody CompanyRequest companyRequest){
+        return companyService.addCompany(companyMapper.toEntity(companyRequest));
     }
 
     @PutMapping("/{id}")

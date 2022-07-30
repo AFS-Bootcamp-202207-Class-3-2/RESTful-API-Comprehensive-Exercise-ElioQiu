@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface EmployeeJpaRepository extends JpaRepository<Employee, Integer> {
     List<Employee> findByGender(String gender);
+    boolean existsById(Integer id);
 }

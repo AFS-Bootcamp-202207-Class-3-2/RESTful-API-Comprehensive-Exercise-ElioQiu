@@ -150,15 +150,21 @@ public class CompanyControllerTest {
     void should_create_a_new_company_when_perform_post_given_a_new_company() throws Exception {
         // given
         String newCompanyJson = "{\n" +
-                "    \"companyName\": \"AppleCompany\"\n" +
-                "}\n";
+                "    \"companyName\" : \"AppleCompany\",\n" +
+                "    \"employeeIds\": [\n" +
+                "        1, 2, 3, 4, 5, 6, 7, 8, 9\n" +
+                "    ]\n" +
+                "}";
+        Employee save = employeeJpaRepository.save(
+                new Employee(null, "Susan", 22, "female", 8000, null));
         //when
         client.perform(MockMvcRequestBuilders.post("/companies")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(newCompanyJson))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.companyName").value("AppleCompany"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.companyName").value("AppleCompany"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.employees[0].id").value(save.getId()));
         //then
     }
 
