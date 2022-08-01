@@ -20,6 +20,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -154,6 +155,8 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value("male"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.salary").doesNotExist());
         //then
+        Employee updatedEmployee = employeeJpaRepository.findById(save.getId()).get();
+        assertEquals(80000, updatedEmployee.getSalary());
     }
     
     @Test
