@@ -13,5 +13,4 @@ import java.util.List;
 @NoArgsConstructor
 public class CompanyRequest {
     private String CompanyName;
-    private List<Integer> employeeIds;
 }

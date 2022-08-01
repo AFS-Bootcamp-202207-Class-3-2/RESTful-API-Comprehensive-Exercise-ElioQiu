@@ -83,7 +83,6 @@ public class EmployeeControllerTest {
     @Test
     void should_find_by_id_when_get_given_Not_exist_id() throws Exception {
         // given
-        employeeJpaRepository.save(new Employee(1, "Mike", 22, "male", 8000, preparedCompany.getId()));
         // when
         client.perform(MockMvcRequestBuilders.get("/employees/{id}", 1))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());

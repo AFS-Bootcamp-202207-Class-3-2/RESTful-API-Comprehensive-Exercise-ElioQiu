@@ -37,16 +37,6 @@ public class CompanyMapper {
     public Company toEntity(CompanyRequest companyRequest){
         Company company = new Company();
         BeanUtils.copyProperties(companyRequest, company);
-        if (companyRequest.getEmployeeIds() != null) {
-            List<Integer> existIds = companyRequest.getEmployeeIds().stream()
-                    .filter(id -> employeeJpaRepository.existsById(id))
-                    .collect(Collectors.toList());
-            companyRequest.setEmployeeIds(existIds);
-            List<Employee> employees = companyRequest.getEmployeeIds().stream()
-                    .map(id -> employeeJpaRepository.findById(id).get())
-                    .collect(Collectors.toList());
-            company.setEmployees(employees);
-        }
         return company;
     }
 }
